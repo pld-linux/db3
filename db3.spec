@@ -65,17 +65,17 @@ Ten pakiet zawiera narzêdzia do obs³ugi baz Berkeley DB z linii
 poleceñ.
 
 %package tcl
-Summary:	Berkeley database library for TCL
-Summary(pl):	Biblioteka baz danych Berkeley dla TCL
+Summary:	Berkeley database library for Tcl
+Summary(pl):	Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
 Requires:	%{name} = %{version}
 Requires:	tcl
 
 %description tcl
-Berkeley database library for TCL.
+Berkeley database library for Tcl.
 
 %description tcl -l pl
-Biblioteka baz danych Berkeley dla TCL.
+Biblioteka baz danych Berkeley dla Tcl.
 
 %package java
 Summary:	Java Berkeley database library
