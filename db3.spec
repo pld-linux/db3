@@ -5,7 +5,7 @@ Version:	3.1.17
 Release:	10
 License:	GPL
 Group:		Libraries
-Source0:	http://www.berkeleydb.com/update/%{version}/db-%{version}.tar.gz
+Source0:	http://www.berkeleydb.com/update/snapshot/db-%{version}.tar.gz
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
 Patch2:		%{name}-jbj.patch
