@@ -1,7 +1,7 @@
 Summary:	BSD database library for C
 Name:		db3
 Version:	3.1.17
-Release:	6
+Release:	7
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -162,7 +162,11 @@ for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
 	mv -f $i `echo $i | sed -e 's,/db_,/db3_,'`
 done
 
-gzip -9nf ../LICENSE ../README
+cd ../
+rm -rf examples_java
+cp -a java/src/com/sleepycat/examples examples_java
+
+gzip -9nf LICENSE README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
