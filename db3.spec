@@ -6,7 +6,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	12
+Release:	13
 License:	BSD
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -20,7 +20,8 @@ Patch2:		%{name}-jbj.patch
 URL:		http://www.sleepycat.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
-BuildRequires:	tcl-devel >= 8.3.2
+BuildRequires:	sed
+BuildRequires:	tcl-devel >= 8.3.4-10
 %{?_with_java:BuildRequires:	java}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
