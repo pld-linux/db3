@@ -241,8 +241,6 @@ rm -rf examples_java
 cp -a java/src/com/sleepycat/examples examples_java
 %endif
 
-gzip -9nf LICENSE README
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -254,7 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE.gz README.gz
+%doc LICENSE README
 %attr(755,root,root) /lib/libdb-*.so
 
 %files utils
