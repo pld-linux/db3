@@ -3,6 +3,7 @@ Name:		db3
 Version:	3.1.17
 Release:	2
 Group:		Libraries
+Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 License:	GPL
@@ -42,6 +43,7 @@ databases.
 %package tcl
 Summary:	Berkeley database library for TCL
 Group:		Development/Languages/Tcl
+Group(de):	Entwicklung/Sprachen/Tcl
 Group(pl):	Programowanie/Jêzyki/Tcl
 Requires:	%{name} = %{version}
 
@@ -51,6 +53,7 @@ Berkeley database library for TCL.
 %package devel
 Summary:	Development libraries and header files for Berkeley database library
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name} = %{version}
@@ -69,6 +72,7 @@ for building programs which use Berkeley DB.
 %package static
 Summary:	Static libraries for Berkeley database library
 Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
 Requires:	%{name}-devel = %{version}
@@ -94,9 +98,7 @@ cp -a build_unix build_unix.static
 
 cd build_unix.static
 
-LDFLAGS="-s" \
-CFLAGS="$RPM_OPT_FLAGS" \
-CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
+CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templates"
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -110,9 +112,6 @@ CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
 
 cd ../build_unix
 
-LDFLAGS="-s" \
-CFLAGS="$RPM_OPT_FLAGS" \
-CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -163,10 +162,10 @@ gzip -9nf ../LICENSE ../README
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
+%post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%post tcl -p /sbin/ldconfig
+%post   tcl -p /sbin/ldconfig
 %postun tcl -p /sbin/ldconfig
 
 %files
