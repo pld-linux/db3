@@ -20,7 +20,6 @@ Patch2:		%{name}-jbj.patch
 URL:		http://www.sleepycat.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
-BuildRequires:	sed
 BuildRequires:	tcl-devel >= 8.3.4-10
 %{?_with_java:BuildRequires:	java}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -242,8 +241,7 @@ ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
 ln -sf libdb3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
 ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
 
-
-OLDPWD=$(pwd); cd $RPM_BUILD_ROOT%{_libdir}/
+OLDPWD=$(pwd); cd $RPM_BUILD_ROOT%{_libdir}
 for i in libdb*.la; do mv $i $i.old; done
 sed -e "s/old_library=''/old_library='libdb-3.1.a'/" libdb-3.1.la.old > libdb-3.1.la
 sed -e "s/old_library=''/old_library='libdb_cxx.a'/" libdb_cxx-3.1.la.old > libdb_cxx-3.1.la
@@ -254,7 +252,7 @@ for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
 	mv -f $i `echo $i | sed -e 's,/db_,/db3_,'`
 done
 
-cd ../
+cd ..
 
 # to remove stupid link:
 rm -rf examples_java
