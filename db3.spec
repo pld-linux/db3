@@ -269,8 +269,10 @@ rm -rf $RPM_BUILD_ROOT
 %post   tcl -p /sbin/ldconfig
 %postun tcl -p /sbin/ldconfig
 
+%if %{?_with_java:1}%{!?_with_java:0}
 %post   java -p /sbin/ldconfig
 %postun java -p /sbin/ldconfig
+%endif
 
 %files
 %defattr(644,root,root,755)
