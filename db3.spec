@@ -2,7 +2,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugo baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	7
+Release:	8
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -154,6 +154,7 @@ cd ../build_unix
 mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
 ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
 ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
+ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.so
 ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
 ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
 ln -sf libdb3.so $RPM_BUILD_ROOT/%{_libdir}/libndbm.so
@@ -209,6 +210,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libdb*.la
 %attr(755,root,root) %{_libdir}/libdb.so
 %attr(755,root,root) %{_libdir}/libdb3.so
+%attr(755,root,root) %{_libdir}/libdb-3.1.so
 %attr(755,root,root) %{_libdir}/libndbm.so
 %attr(755,root,root) %{_libdir}/libdb_tcl.so
 %attr(755,root,root) %{_libdir}/libdb_cxx*.so
