@@ -53,7 +53,7 @@ recovery. DB supports C, C++, Java and Perl APIs.
 This package contains command line tools for managing Berkeley DB
 databases.
 
-%description devel -l pl
+%description -l pl utils
 Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
 zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
 klient-serwer. Berkeley DB obs³ugje dostêp do bazy przez B-drzewa i
