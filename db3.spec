@@ -1,7 +1,7 @@
 Summary:	BSD database library for C
 Name:		db3
 Version:	3.1.17
-Release:	5
+Release:	6
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -99,7 +99,8 @@ cp -a build_unix build_unix.static
 
 cd build_unix.static
 
-CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templates"
+CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templates" \
+CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -113,6 +114,8 @@ CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templ
 
 cd ../build_unix
 
+CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templates" \
+CXXFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
