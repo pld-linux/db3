@@ -54,7 +54,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 cd dist
-make install \
+%{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/doc/%{name}-%{version}
 
