@@ -8,6 +8,7 @@ License:	GPL
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
+# Source0-md5:	5baeb94fb934d0bf783ea42117c400be
 Source1:	%{name}.jar
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
