@@ -6,11 +6,12 @@ Version:	3.1.17
 Release:	10.1
 License:	GPL
 Group:		Libraries
-Source0:	http://www.berkeleydb.com/update/snapshot/db-%{version}.tar.gz
+# alternative site (sometimes working): http://www.berkeleydb.com/
+Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
 Patch2:		%{name}-jbj.patch
-URL:		http://www.berkeleydb.com/
+URL:		http://www.sleepycat.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
 BuildRequires:	tcl-devel >= 8.3.2
