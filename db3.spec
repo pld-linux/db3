@@ -16,6 +16,7 @@ Patch3:		%{name}-static.patch
 Patch4:		http://www.sleepycat.com/update/3.1.14/patch.3.1.14.1
 PreReq:		/sbin/ldconfig
 BuildRequires:	db1-static
+BuildRequires:	tcl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -105,6 +106,7 @@ CFLAGS="$RPM_OPT_FLAGS" \
 CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
+	--with-tcl=%{_libdir} \
 	--enable-compat185 \
 	--enable-dump185 \
 	--disable-shared \
