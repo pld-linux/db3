@@ -1,7 +1,7 @@
 Summary:	BSD database library for C
 Name:		db3
 Version:	3.1.17
-Release:	2
+Release:	3
 Group:		Libraries
 Group(de):	Libraries
 Group(fr):	Librairies
@@ -150,6 +150,7 @@ mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
 ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
 ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
 ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
+ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
 ln -sf libdb3.so $RPM_BUILD_ROOT/%{_libdir}/libndbm.so
 ln -sf libdb3.a $RPM_BUILD_ROOT/%{_libdir}/libndbm.a
 
