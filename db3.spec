@@ -269,7 +269,7 @@ rm -rf $RPM_BUILD_ROOT
 %post   tcl -p /sbin/ldconfig
 %postun tcl -p /sbin/ldconfig
 
-%post	java -p /sbin/ldconfig
+%post   java -p /sbin/ldconfig
 %postun java -p /sbin/ldconfig
 
 %files
