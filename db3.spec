@@ -10,6 +10,7 @@ Group:		Libraries
 Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
 # Source0-md5:	5baeb94fb934d0bf783ea42117c400be
 Source1:	%{name}.jar
+# Source1-md5:	0d15818dea3099eed42b4be9950c69ad
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
 Patch2:		%{name}-jbj.patch
