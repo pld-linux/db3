@@ -1,19 +1,15 @@
 Summary:	BSD database library for C
 Name:		db3
-Version:	3.1.14
-Release:	3
+Version:	3.1.17
+Release:	2
 Group:		Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
 License:	GPL
 URL:		http://www.sleepycat.com
 Source0:	http://www.sleepycat.com/update/%{version}/db-%{version}.tar.gz
-#Patch0:	http://www.sleepycat.com/update/%{version}/patch.3.0.55.1
-Patch0:		%{name}-align.patch
-Patch1:		%{name}-linux-threads.patch
-Patch2:		%{name}-shmget.patch
-Patch3:		%{name}-static.patch
-Patch4:		http://www.sleepycat.com/update/3.1.14/patch.3.1.14.1
+Patch0:		%{name}-linux-threads.patch
+Patch1:		%{name}-static.patch
 PreReq:		/sbin/ldconfig
 BuildRequires:	db1-static
 BuildRequires:	tcl-devel
@@ -89,12 +85,8 @@ use Berkeley DB.
 
 %prep
 %setup -q -n db-%{version}
-#%patch0 -p0
-#%patch1 -p1
-# XXX not applied
-#%patch2 -p1
-%patch3 -p1
-%patch4 -p0
+#%patch0 -p1
+%patch1 -p1
 
 %build
 cp -a build_unix build_unix.static
@@ -106,7 +98,6 @@ CFLAGS="$RPM_OPT_FLAGS" \
 CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
-	--with-tcl=%{_libdir} \
 	--enable-compat185 \
 	--enable-dump185 \
 	--disable-shared \
@@ -148,7 +139,7 @@ cd ../build_unix
 
 %{__make} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	includedir=$RPM_BUILD_ROOT%{_includedir}/db3 \
+	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	install_include \
 	install_dynamic \
 	install_dynamic_cxx \
@@ -156,16 +147,15 @@ cd ../build_unix
 	install_utilities
 
 mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
-ln -s ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
-ln -s libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/libdb.so
+ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
+ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
+ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
+ln -sf libdb3.so $RPM_BUILD_ROOT/%{_libdir}/libndbm.so
+ln -sf libdb3.a $RPM_BUILD_ROOT/%{_libdir}/libndbm.a
 
 for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
 	mv -f $i `echo $i | sed -e 's,/db_,/db3_,'`
 done
-
-strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/*
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so
 
 gzip -9nf ../LICENSE ../README
 
@@ -207,10 +197,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc docs/{api*,ref,index.html,sleepycat,images} examples*
 %attr(755,root,root) %{_libdir}/libdb*.la
+%attr(755,root,root) %{_libdir}/libdb.so
 %attr(755,root,root) %{_libdir}/libdb3.so
+%attr(755,root,root) %{_libdir}/libndbm.so
 %attr(755,root,root) %{_libdir}/libdb_tcl.so
 %attr(755,root,root) %{_libdir}/libdb_cxx*.so
-%{_includedir}/db3
+%{_includedir}/*
 
 %files static
 %defattr(644,root,root,755)
