@@ -3,14 +3,16 @@ Name:		db3
 Version:	3.1.14
 Release:	1
 Group:		Libraries
+Group(fr):	Librairies
+Group(pl):	Biblioteki
 License:	GPL
 URL:		http://www.sleepycat.com
 Source0:	http://www.sleepycat.com/update/%{version}/db-%{version}.tar.gz
 #Patch0:	http://www.sleepycat.com/update/%{version}/patch.3.0.55.1
-Patch0:		db3-align.patch
-Patch1:		db3-linux-threads.patch
-Patch2:		db3-shmget.patch
-Patch3:		db3-static.patch
+Patch0:		%{name}-align.patch
+Patch1:		%{name}-linux-threads.patch
+Patch2:		%{name}-shmget.patch
+Patch3:		%{name}-static.patch
 PreReq:		/sbin/ldconfig
 BuildRequires:	db1-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -71,8 +73,8 @@ Linear Hashing, Fixed and Variable-length record access methods,
 transactions, locking, logging, shared memory caching and database
 recovery. DB supports C, C++, Java and Perl APIs.
 
-This package contains the static libraries for building programs which use
-Berkeley DB.
+This package contains the static libraries for building programs which
+use Berkeley DB.
 
 %prep
 %setup -q -n db-%{version}
@@ -140,13 +142,13 @@ cd ../build_unix
 	install_tcl \
 	install_utilities
 
-mv $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
+mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
 ln -s ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
 ln -s libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libdb.so
 
-for i in $RPM_BUILD_ROOT%{_prefix}/bin/db_* ; do
-	mv $i `echo $i | sed -e 's,/db_,/db3_,'`
+for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
+	mv -f $i `echo $i | sed -e 's,/db_,/db3_,'`
 done
 
 strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/*
