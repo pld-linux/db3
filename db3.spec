@@ -3,7 +3,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	11
+Release:	12
 License:	GPL
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -72,7 +72,6 @@ Berkeley database library for TCL.
 %description tcl -l pl
 Biblioteka baz danych Berkeley dla TCL.
 
-%if %{?_with_java:1}%{!?_with_java:0}
 %package java
 Summary:	Java Berkeley database library
 Summary(pl):	Biblioteki Berkeley Database dla Javy
@@ -84,7 +83,6 @@ Java Berkeley database library.
 
 %description java -l pl
 Biblioteki Berkeley Database dla Javy.
-%endif
 
 %package devel
 Summary:	Header files for Berkeley database library
@@ -269,10 +267,8 @@ rm -rf $RPM_BUILD_ROOT
 %post   tcl -p /sbin/ldconfig
 %postun tcl -p /sbin/ldconfig
 
-%if %{?_with_java:1}%{!?_with_java:0}
 %post   java -p /sbin/ldconfig
 %postun java -p /sbin/ldconfig
-%endif
 
 %files
 %defattr(644,root,root,755)
