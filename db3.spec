@@ -44,7 +44,7 @@ recovery. DB supports C, C++, Java and Perl APIs.
 This package contains command line tools for managing Berkeley DB
 databases.
 
-%description -l pl utils
+%description utils -l pl
 Berkeley Database (Berkeley DB) to zestaw narzêdzi programistycznych
 zapewniaj±cych obs³ugê baz danych w aplikacjach tradycyjnych jak i
 klient-serwer. Berkeley DB obs³ugje dostêp do bazy przez B-drzewa i
@@ -197,7 +197,7 @@ ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
 
 
 OLDPWD=$(pwd); cd $RPM_BUILD_ROOT%{_libdir}/
-for i in libdb*.la; do mv $i $i.old; done 
+for i in libdb*.la; do mv $i $i.old; done
 sed -e "s/old_library=''/old_library='libdb-3.1.a'/" libdb-3.1.la.old > libdb-3.1.la
 sed -e "s/old_library=''/old_library='libdb_cxx.a'/" libdb_cxx-3.1.la.old > libdb_cxx-3.1.la
 rm -f libdb*.la.old
