@@ -1,0 +1,34 @@
+--- db-3.1.14/dist/Makefile.in~	Tue May  2 15:59:43 2000
++++ db-3.1.14/dist/Makefile.in	Mon Jul 31 02:49:17 2000
+@@ -31,7 +31,7 @@
+ SOMAJOR=	@DB_VERSION_MAJOR@
+ SOVERSION=	@DB_VERSION_MAJOR@.@DB_VERSION_MINOR@
+ 
+-libdb=		libdb.a
++libdb=		libdb-$(SOVERSION).a
+ 
+ libso_base=	libdb
+ libso_linkname=	$(libso_base)-$(SOVERSION).la
+--- db-3.1.14/dist/Makefile.in~	Mon Jul 31 03:04:12 2000
++++ db-3.1.14/dist/Makefile.in	Mon Jul 31 03:10:08 2000
+@@ -222,6 +222,7 @@
+ # directories, and configure and build them separately.
+ ##################################################
+ all:	@DEFAULT_LIB@ @ADDITIONAL_LIBS@ @ADDITIONAL_LANG@ $(PROGS)
++static:	@DEFAULT_LIB@ @ADDITIONAL_LIBS@ @ADDITIONAL_LANG@
+ 
+ $(libdb): $(OBJS)
+ 	$(ar) $@ $(OBJS)
+--- db-3.1.14/dist/Makefile.in~	Mon Jul 31 03:29:17 2000
++++ db-3.1.14/dist/Makefile.in	Mon Jul 31 03:37:52 2000
+@@ -100,8 +100,8 @@
+ # local libraries, for example.  Do that by adding -I options to the DB185INC
+ # line, and -l options to the DB185LIB line.
+ ##################################################
+-DB185INC=	-c @CFLAGS@ -I$(srcdir)/include @CPPFLAGS@
+-DB185LIB=
++DB185INC=	-c @CFLAGS@ -I/usr/include/db1 -I$(srcdir)/include @CPPFLAGS@
++DB185LIB=	-static -ldb1
+ 
+ ##################################################
+ # INSTALLATION DIRECTORIES AND PERMISSIONS
