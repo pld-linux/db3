@@ -1,20 +1,18 @@
 Summary:	BSD database library for C
 Name:		db3
 Version:	3.1.17
-Release:	3
+Release:	4
+License:	GPL
 Group:		Libraries
 Group(de):	Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
-License:	GPL
-URL:		http://www.sleepycat.com
 Source0:	http://www.sleepycat.com/update/%{version}/db-%{version}.tar.gz
-Patch0:		%{name}-linux-threads.patch
-Patch1:		%{name}-static.patch
-PreReq:		/sbin/ldconfig
+Patch0:		%{name}-static.patch
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
-BuildRequires:	tcl-devel
+BuildRequires:	tcl-devel >= 8.3.2
+URL:		http://www.sleepycat.com/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -90,8 +88,7 @@ use Berkeley DB.
 
 %prep
 %setup -q -n db-%{version}
-#%patch0 -p1
-%patch1 -p1
+%patch0 -p1
 
 %build
 cp -a build_unix build_unix.static
