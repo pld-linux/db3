@@ -2,7 +2,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugo baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	8
+Release:	9
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -157,8 +157,14 @@ ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
 ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.so
 ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
 ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
-ln -sf libdb3.so $RPM_BUILD_ROOT/%{_libdir}/libndbm.so
-ln -sf libdb3.a $RPM_BUILD_ROOT/%{_libdir}/libndbm.a
+ln -sf libdb3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
+ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
+
+sed -e "s/old_library=''/old_library='libdb-3.1.a'/" \
+	$RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la > \
+	$RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la.new
+mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la.new \
+	$RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la
 
 for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
 	mv -f $i `echo $i | sed -e 's,/db_,/db3_,'`
