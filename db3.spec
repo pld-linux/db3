@@ -13,6 +13,7 @@ Patch0:		%{name}-align.patch
 Patch1:		%{name}-linux-threads.patch
 Patch2:		%{name}-shmget.patch
 Patch3:		%{name}-static.patch
+Patch4:		http://www.sleepycat.com/update/3.1.14/patch.3.1.14.1
 PreReq:		/sbin/ldconfig
 BuildRequires:	db1-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -39,6 +40,15 @@ recovery. DB supports C, C++, Java and Perl APIs.
 
 This package contains command line tools for managing Berkeley DB
 databases.
+
+%package tcl
+Summary:	Berkeley database library for TCL
+Group:		Development/Languages/Tcl
+Group(pl):	Programowanie/Jêzyki/Tcl
+Requires:	%{name} = %{version}
+
+%description tcl
+Berkeley database library for TCL.
 
 %package devel
 Summary:	Development libraries and header files for Berkeley database library
@@ -83,6 +93,7 @@ use Berkeley DB.
 # XXX not applied
 #%patch2 -p1
 %patch3 -p1
+%patch4 -p0
 
 %build
 cp -a build_unix build_unix.static
@@ -162,6 +173,9 @@ rm -rf $RPM_BUILD_ROOT
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
+%post tcl -p /sbin/ldconfig
+%postun tcl -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc LICENSE.gz README.gz
@@ -170,7 +184,6 @@ rm -rf $RPM_BUILD_ROOT
 %files utils
 %defattr(644,root,root,755)
 %doc docs/utility/*
-%attr(755,root,root) %{_libdir}/libdb_tcl-*.so
 %attr(755,root,root) %{_bindir}/berkeley_db_svc
 %attr(755,root,root) %{_bindir}/db*_archive
 %attr(755,root,root) %{_bindir}/db*_checkpoint
@@ -183,6 +196,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/db*_stat
 %attr(755,root,root) %{_bindir}/db*_upgrade
 %attr(755,root,root) %{_bindir}/db*_verify
+
+%files tcl
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdb_tcl-*.so
 
 %files devel
 %defattr(644,root,root,755)
