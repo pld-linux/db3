@@ -1,0 +1,26 @@
+*** mp/mp_fopen.c.orig	2000/05/17 19:29:21	11.30
+--- mp/mp_fopen.c	2000/06/30 21:32:54
+***************
+*** 251,258 ****
+  	 */
+  	if (needlock)
+  		R_LOCK(dbenv, dbmp->reginfo);
+! 	ret = mfp == NULL ? __memp_mf_open(
+! 	    dbmp, path, pagesize, last_pgno, finfop, flags, &mfp) : 0;
+  	if (needlock)
+  		R_UNLOCK(dbenv, dbmp->reginfo);
+  	if (ret != 0)
+--- 251,263 ----
+  	 */
+  	if (needlock)
+  		R_LOCK(dbenv, dbmp->reginfo);
+! 	if (mfp == NULL)
+! 		ret = __memp_mf_open(
+! 		    dbmp, path, pagesize, last_pgno, finfop, flags, &mfp);
+! 	else {
+! 		++mfp->ref_cnt;
+! 		ret = 0;
+! 	}
+  	if (needlock)
+  		R_UNLOCK(dbenv, dbmp->reginfo);
+  	if (ret != 0)
