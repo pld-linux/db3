@@ -1,7 +1,7 @@
 Summary:	BSD database library for C
 Name:		db3
 Version:	3.1.14
-Release:	1
+Release:	2
 Group:		Libraries
 Group(fr):	Librairies
 Group(pl):	Biblioteki
