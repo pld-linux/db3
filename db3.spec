@@ -278,7 +278,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc docs/{api*,ref,index.html,sleepycat,images} examples*
-%attr(755,root,root) %{_libdir}/libdb*.la
+%{_libdir}/libdb*.la
 %attr(755,root,root) %{_libdir}/libdb.so
 %attr(755,root,root) %{_libdir}/libdb3.so
 %attr(755,root,root) %{_libdir}/libdb-3.1.so
