@@ -8,6 +8,7 @@ License:	GPL
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
+Source1:	%{name}.jar
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
 Patch2:		%{name}-jbj.patch
@@ -256,6 +257,7 @@ rm -rf examples_java
 
 %if %{?_with_java:1}%{!?_with_java:0}
 cp -ra java/src/com/sleepycat/examples examples_java
+install %{SOURCE2} $RPM_BUILD_ROOT%{_libdir}/db.jar
 %endif
 
 %clean
@@ -297,6 +299,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc docs/api_java examples_java
 %attr(755,root,root) %{_libdir}/libdb_java*.so
+%{_libdir}/db.jar
 %endif
 
 %files devel
