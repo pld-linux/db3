@@ -1,27 +1,15 @@
---- db-3.1.14/dist/Makefile.in~	Tue May  2 15:59:43 2000
-+++ db-3.1.14/dist/Makefile.in	Mon Jul 31 02:49:17 2000
-@@ -31,7 +31,7 @@
- SOMAJOR=	@DB_VERSION_MAJOR@
- SOVERSION=	@DB_VERSION_MAJOR@.@DB_VERSION_MINOR@
+--- ./dist/Makefile.in.org	Sat Feb 14 19:09:23 2004
++++ ./dist/Makefile.in	Sat Feb 14 19:12:44 2004
+@@ -60,7 +60,7 @@
+ LIBS=		@LIBS@
+ LIBSO_LIBS=	@LIBSO_LIBS@
  
 -libdb=		libdb.a
 +libdb=		libdb-$(SOVERSION).a
- 
  libso_base=	libdb
- libso_linkname=	$(libso_base)-$(SOVERSION).la
---- db-3.1.14/dist/Makefile.in~	Mon Jul 31 03:04:12 2000
-+++ db-3.1.14/dist/Makefile.in	Mon Jul 31 03:10:08 2000
-@@ -222,6 +222,7 @@
- # directories, and configure and build them separately.
- ##################################################
- all:	@DEFAULT_LIB@ @ADDITIONAL_LIBS@ @ADDITIONAL_LANG@ $(PROGS)
-+static:	@DEFAULT_LIB@ @ADDITIONAL_LIBS@ @ADDITIONAL_LANG@
- 
- $(libdb): $(OBJS)
- 	$(ar) $@ $(OBJS)
---- db-3.1.14/dist/Makefile.in~	Mon Jul 31 03:29:17 2000
-+++ db-3.1.14/dist/Makefile.in	Mon Jul 31 03:37:52 2000
-@@ -100,8 +100,8 @@
+ libso=		$(libso_base)-$(SOVERSION).@SOSUFFIX@
+ libso_static=	$(libso_base)-$(SOVERSION).a
+@@ -135,8 +135,8 @@
  # local libraries, for example.  Do that by adding -I options to the DB185INC
  # line, and -l options to the DB185LIB line.
  ##################################################
@@ -31,4 +19,12 @@
 +DB185LIB=	-static -ldb1
  
  ##################################################
- # INSTALLATION DIRECTORIES AND PERMISSIONS
+ # NOTHING BELOW THIS LINE SHOULD EVER NEED TO BE MODIFIED.
+@@ -247,6 +247,7 @@
+ # for Embedix.  Note: "all" must be the first target in the Makefile.
+ ##################################################
+ all: @BUILD_TARGET@
++static:	@DEFAULT_LIB@ @ADDITIONAL_LIBS@ @ADDITIONAL_LANG@
+ 
+ install: @INSTALL_TARGET@
+ 
