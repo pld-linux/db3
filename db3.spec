@@ -3,7 +3,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	10.1
+Release:	11
 License:	GPL
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -70,6 +70,20 @@ Berkeley database library for TCL.
 
 %description tcl -l pl
 Biblioteka baz danych Berkeley dla TCL.
+
+%if %{?_with_java:1}%{!?_with_java:0}
+%package java
+Summary:	Java Berkeley database library
+Summary(pl):	Biblioteki Berkeley Database dla Javy
+Group:		Development/Languages/Java
+Requires:	%{name} = %{version}
+
+%description java
+Java Berkeley database library.
+
+%description java -l pl
+Biblioteki Berkeley Database dla Javy.
+%endif
 
 %package devel
 Summary:	Header files for Berkeley database library
@@ -237,9 +251,11 @@ done
 
 cd ../
 
-%if %{?_with_java:0}%{!?_with_java:1}
+# to remove stupid link:
 rm -rf examples_java
-cp -a java/src/com/sleepycat/examples examples_java
+
+%if %{?_with_java:1}%{!?_with_java:0}
+cp -ra java/src/com/sleepycat/examples examples_java
 %endif
 
 %clean
@@ -276,9 +292,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_tcl-*.so
 
+%if %{?_with_java:1}%{!?_with_java:0}
+%files java
+%defattr(644,root,root,755)
+%doc docs/api_java examples_java
+%attr(755,root,root) %{_libdir}/libdb_java*.so
+%endif
+
 %files devel
 %defattr(644,root,root,755)
-%doc docs/{api*,ref,index.html,sleepycat,images} examples*
+%doc docs/{api_cxx,api_c,ref,index.html,sleepycat,images} examples_{c,cxx}
 %{_libdir}/libdb*.la
 %attr(755,root,root) %{_libdir}/libdb.so
 %attr(755,root,root) %{_libdir}/libdb3.so
@@ -286,9 +309,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libndbm.so
 %attr(755,root,root) %{_libdir}/libdb_tcl.so
 %attr(755,root,root) %{_libdir}/libdb_cxx*.so
-%if %{?_with_java:1}%{!?_with_java:0}
-%attr(755,root,root) %{_libdir}/libdb_java*.so
-%endif
 %{_includedir}/*
 
 %files static
