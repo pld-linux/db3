@@ -100,8 +100,8 @@ cp -a build_unix build_unix.static
 
 cd build_unix.static
 
-CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-implicit-templates" \
-CXXFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-implicit-templates" \
+CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
+CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -115,8 +115,8 @@ CXXFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-implicit-temp
 
 cd ../build_unix
 
-CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-implicit-templates" \
-CXXFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-implicit-templates" \
+CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
+CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
