@@ -5,13 +5,6 @@ Version:	3.1.17
 Release:	10
 License:	GPL
 Group:		Libraries
-Group(de):	Libraries
-Group(es):	Bibliotecas
-Group(fr):	Librairies
-Group(pl):	Biblioteki
-Group(pt_BR):	Bibliotecas
-Group(ru):	Библиотеки
-Group(uk):	Б╕бл╕отеки
 Source0:	http://www.berkeleydb.com/update/%{version}/db-%{version}.tar.gz
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
@@ -38,8 +31,6 @@ Pythonie i Perlu.
 Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	NarzЙdzia do obsЁugi baz Berkeley DB z linii poleceЯ
 Group:		Applications/Databases
-Group(de):	Applikationen/Dateibanken
-Group(pl):	Aplikacje/Bazy danych
 Requires:	%{name} = %{version}
 
 %description utils
@@ -68,8 +59,6 @@ poleceЯ.
 Summary:	Berkeley database library for TCL
 Summary(pl):	Biblioteka baz danych Berkeley dla TCL
 Group:		Development/Languages/Tcl
-Group(de):	Entwicklung/Sprachen/Tcl
-Group(pl):	Programowanie/JЙzyki/Tcl
 Requires:	%{name} = %{version}
 Requires:	tcl
 
@@ -83,13 +72,6 @@ Biblioteka baz danych Berkeley dla TCL.
 Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nagЁСwkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name} = %{version}
 
 %description devel
@@ -118,13 +100,6 @@ programСw u©ywaj╠cych Berkeley DB.
 Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 Requires:	%{name}-devel = %{version}
 
 %description static
