@@ -160,11 +160,13 @@ ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
 ln -sf libdb3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
 ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
 
-sed -e "s/old_library=''/old_library='libdb-3.1.a'/" \
-	$RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la > \
-	$RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la.new
-mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la.new \
-	$RPM_BUILD_ROOT%{_libdir}/libdb-3.1.la
+
+OLDPWD=$(pwd); cd $RPM_BUILD_ROOT%{_libdir}/
+for i in libdb*.la; do mv $i $i.old; done 
+sed -e "s/old_library=''/old_library='libdb-3.1.a'/" libdb-3.1.la.old > libdb-3.1.la
+sed -e "s/old_library=''/old_library='libdb_cxx.a'/" libdb_cxx-3.1.la.old > libdb_cxx-3.1.la
+rm -f libdb*.la.old
+cd $OLDPWD
 
 for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
 	mv -f $i `echo $i | sed -e 's,/db_,/db3_,'`
