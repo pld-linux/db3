@@ -12,14 +12,14 @@ Group(pl):	Biblioteki
 Group(pt_BR):	Bibliotecas
 Group(ru):	Библиотеки
 Group(uk):	Б╕бл╕отеки
-Source0:	http://www.sleepycat.com/update/%{version}/db-%{version}.tar.gz
+Source0:	http://www.berkeleydb.com/update/%{version}/db-%{version}.tar.gz
 Patch0:		%{name}-static.patch
 Patch1:		%{name}-linux.patch
 Patch2:		%{name}-jbj.patch
+URL:		http://www.berkeleydb.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
 BuildRequires:	tcl-devel >= 8.3.2
-URL:		http://www.sleepycat.com/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
