@@ -271,14 +271,14 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/db.jar
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
-%post   tcl -p /sbin/ldconfig
-%postun tcl -p /sbin/ldconfig
+%post	tcl -p /sbin/ldconfig
+%postun	tcl -p /sbin/ldconfig
 
-%post   java -p /sbin/ldconfig
-%postun java -p /sbin/ldconfig
+%post	java -p /sbin/ldconfig
+%postun	java -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
