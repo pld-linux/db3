@@ -45,6 +45,7 @@ cd dist
 	--enable-cxx \
 	--enable-dynamic \
 	--enable-shared \
+	--enable-static \
 	--enable-tcl
 
 make
