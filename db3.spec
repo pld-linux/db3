@@ -1,4 +1,5 @@
 Summary:	BSD database library for C
+Summary(pl):	Biblioteka C do obs³ugo baz Berkeley DB
 Name:		db3
 Version:	3.1.17
 Release:	7
