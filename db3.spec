@@ -2,7 +2,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugo baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	9
+Release:	10
 License:	GPL
 Group:		Libraries
 Group(de):	Libraries
@@ -47,6 +47,7 @@ Group:		Development/Languages/Tcl
 Group(de):	Entwicklung/Sprachen/Tcl
 Group(pl):	Programowanie/Jêzyki/Tcl
 Requires:	%{name} = %{version}
+Requires:	tcl
 
 %description tcl
 Berkeley database library for TCL.
