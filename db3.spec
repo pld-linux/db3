@@ -1,6 +1,3 @@
-%define	__soversion	3.1
-%define	_libdb_a	libdb-%{__soversion}.a
-
 Summary:	BSD database library for C
 Name:		db3
 Version:	3.1.14
@@ -13,13 +10,9 @@ Source0:	http://www.sleepycat.com/update/%{version}/db-%{version}.tar.gz
 Patch0:		db3-align.patch
 Patch1:		db3-linux-threads.patch
 Patch2:		db3-shmget.patch
+Patch3:		db3-static.patch
 PreReq:		/sbin/ldconfig
-
-# XXX written as a file prereq in order to build with glibc-2.1.3
-%ifos linux
-BuildPrereq:	/usr/lib/libdb1.a
-%endif
-
+BuildRequires:	db1-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -86,62 +79,80 @@ Berkeley DB.
 #%patch0 -p0
 #%patch1 -p1
 # XXX not applied
-#%patch1 -p1
+#%patch2 -p1
+%patch3 -p1
 
 %build
+cp -a build_unix build_unix.static
 
-cd build_unix
+cd build_unix.static
 
-# XXX --enable-tcl can't add without picking up dependency on libtcl.so
-# XXX --enable-posixmutexes (missing pthread_{cond,mutex}attr_setpshared)
-# XXX --enable-cxx (barfs on clone proto in %{_includedir}/bits/sched.h)
-# XXX --enable-debug_{r,w}op should be disabled for production.
-CFLAGS="$RPM_OPT_FLAGS" ../dist/configure --prefix=%{_prefix} --enable-debug --enable-compat185 --enable-diagnostic --enable-dump185 --enable-shared --enable-static --enable-rpc --enable-tcl # --enable-test --enable-debug --enable-debug_rop --enable-debug_wop # --enable-posixmutexes
+LDFLAGS="-s" \
+CFLAGS="$RPM_OPT_FLAGS" \
+CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
+../dist/configure \
+	--prefix=%{_prefix} \
+	--enable-compat185 \
+	--enable-dump185 \
+	--disable-shared \
+	--enable-static \
+	--enable-rpc \
+	--enable-cxx
 
-%{__make} libdb=%{_libdb_a} %{_libdb_a}
+%{__make} static db_dump185
 
-# Static link with old db-185 libraries.
-/bin/sh ./libtool --mode=compile cc -c -O2 -g -g -I%{_includedir}/db1 -I../dist/../include -D_REENTRANT  ../dist/../db_dump185/db_dump185.c
-cc -s -static -o db_dump185 db_dump185.lo -L%{_libdir} -ldb1
+cd ../build_unix
 
-# Compile rest normally.
-%{__make} libdb=%{_libdb_a} TCFLAGS='-I$(builddir) -I%{_includedir}' LDFLAGS="-s"
+LDFLAGS="-s" \
+CFLAGS="$RPM_OPT_FLAGS" \
+CXXFLAGS="$RPM_OPT_FLAGS -fno-rtti -fno-implicit-templates" \
+../dist/configure \
+	--prefix=%{_prefix} \
+	--enable-compat185 \
+	--enable-shared \
+	--disable-static \
+	--enable-rpc \
+	--enable-cxx \
+	--enable-tcl
+
+%{__make} TCFLAGS='-I$(builddir) -I%{_includedir}'
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d ${RPM_BUILD_ROOT}%{_includedir}
-install -d ${RPM_BUILD_ROOT}%{_libdir}
+install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
 
-cd build_unix
+cd build_unix.static
 
-# XXX install_tcl
-# XXX install_static_cxx
-# XXX install_dynamic_cxx
-# XXX install_java
-# XXX install_docs (handled by %docs)
-%{__make} libdb=%{_libdb_a} LDFLAGS="-s" prefix=${RPM_BUILD_ROOT}%{_prefix} install_include install_dynamic install_static install_tcl install_utilities
+%{__make} prefix=$RPM_BUILD_ROOT%{_prefix} \
+	install_static \
+	install_static_cxx
 
-# XXX annoying
-set -x
-( cd ${RPM_BUILD_ROOT}
+install db_dump185 $RPM_BUILD_ROOT%{_bindir}
 
-%ifos linux
-  install -d ./lib
-  mv -f .%{_libdir}/libdb[-.]*so* ./lib
-  if [ "%{_libdir}" != "%{_libdir}" ]; then
-    install -d .%{_libdir}
-    mv -f .%{_libdir}/libdb* .%{_libdir}
-  fi
-%endif
+cd ../build_unix
 
-  mkdir -p .%{_includedir}/db3
-  mv -f .%{_prefix}/include/*.h .%{_includedir}/db3
-  ln -sf db3/db.h .%{_includedir}/db.h
-#  for F in .%{_prefix}/bin/db_* ; do
-#    mv $F `echo $F | sed -e 's,/db_,/db3_,'`
-#  done
-)
-set +x
+%{__make} \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	includedir=$RPM_BUILD_ROOT%{_includedir}/db3 \
+	install_include \
+	install_dynamic \
+	install_dynamic_cxx \
+	install_tcl \
+	install_utilities
+
+mv $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
+ln -s ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
+ln -s libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/libdb.so
+
+for i in $RPM_BUILD_ROOT%{_prefix}/bin/db_* ; do
+	mv $i `echo $i | sed -e 's,/db_,/db3_,'`
+done
+
+strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/*
+strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/lib*.so
+
+gzip -9nf ../LICENSE ../README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -151,17 +162,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE README docs/images
-%ifos linux
-/lib/libdb-%{__soversion}.so
-%else
-%{_libdir}/libdb-%{__soversion}.so
-%endif
+%doc LICENSE.gz README.gz
+%attr(755,root,root) /lib/libdb-*.so
 
 %files utils
 %defattr(644,root,root,755)
-%doc docs/utility
-%{_libdir}/libdb_tcl-%{__soversion}.so
+%doc docs/utility/*
+%attr(755,root,root) %{_libdir}/libdb_tcl-*.so
 %attr(755,root,root) %{_bindir}/berkeley_db_svc
 %attr(755,root,root) %{_bindir}/db*_archive
 %attr(755,root,root) %{_bindir}/db*_checkpoint
@@ -177,23 +184,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%doc	docs/api_c docs/api_cxx docs/api_java docs/api_tcl docs/index.html
-%doc	docs/ref docs/sleepycat
-%doc	examples_c examples_cxx
-%{_libdir}/libdb-%{__soversion}.la
-%{_libdir}/libdb_tcl-%{__soversion}.la
-%{_libdir}/%{_libdb_a}
-%{_includedir}/db3/db.h
-%{_includedir}/db3/db_185.h
-%{_includedir}/db3/db_cxx.h
-%{_includedir}/db.h
-%ifos linux
-/lib/libdb.so
-%else
-%{_libdir}/libdb.so
-%endif
-%{_libdir}/libdb_tcl.so
+%doc docs/{api*,ref,index.html,sleepycat,images} examples*
+%attr(755,root,root) %{_libdir}/libdb*.la
+%attr(755,root,root) %{_libdir}/libdb3.so
+%attr(755,root,root) %{_libdir}/libdb_tcl.so
+%attr(755,root,root) %{_libdir}/libdb_cxx*.so
+%{_includedir}/db3
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/%{_libdb_a}
+%{_libdir}/lib*.a
