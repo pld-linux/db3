@@ -3,7 +3,9 @@ Name:		db
 Version:	3.0.55
 Release:	1
 License:	distributable
-Group:		Library
+Group:		Libraries
+Group(fr):	Librairies
+Group(pl):	Biblioteki
 Source0:	%{name}-%{version}.tar.gz
 Patch0:		db3-DESTDIR.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -14,13 +16,19 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %package devel
 Summary:	Berkeley DB
-Group:		Development/Library
+Group:		Development/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+Requires:	%{name} = %{version}
 
 %description devel
 
 #%package static
 #Summary:	Berkeley DB
-#Group:		Development/Library
+#Group:		Development/Libraries
+#Group(fr):	Development/Librairies
+#Group(pl):	Programowanie/Biblioteki
+#Requires:	%{name}-devel = %{version}
 #
 #%description static
 
@@ -30,14 +38,9 @@ chmod -R u+w *
 %patch0 -p1 
 
 %build
-cd build_unix
-CFLAGS="$RPM_OPT_FLAGS" \
-LDFLAGS="-s" \
-../dist/configure \
-	--prefix=%{_prefix} \
-	--bindir=%{_bindir} \
-	--includedir=%{_includedir} \
-	--libdir=%{_libdir} \
+LDFLAGS="-s"; export LDFLAGS
+cd dist
+%configure \
 	--enable-compat185 \
 	--enable-cxx \
 	--enable-dynamic \
@@ -49,7 +52,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 
-cd build_unix
+cd dist
 make install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_datadir}/doc/%{name}-%{version}
