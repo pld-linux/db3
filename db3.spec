@@ -3,7 +3,7 @@ Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	11
+Release:	10.4
 License:	GPL
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
@@ -257,7 +257,7 @@ rm -rf examples_java
 
 %if %{?_with_java:1}%{!?_with_java:0}
 cp -ra java/src/com/sleepycat/examples examples_java
-install %{SOURCE2} $RPM_BUILD_ROOT%{_libdir}/db.jar
+install %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/db.jar
 %endif
 
 %clean
