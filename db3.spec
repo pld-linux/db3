@@ -12,6 +12,7 @@ Patch0:		%{name}-linux-threads.patch
 Patch1:		%{name}-static.patch
 PreReq:		/sbin/ldconfig
 BuildRequires:	db1-static
+BuildRequires:	glibc-static
 BuildRequires:	tcl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
