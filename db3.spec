@@ -1,8 +1,9 @@
+# _with_java	- build with java support
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db3
 Version:	3.1.17
-Release:	10
+Release:	10.1
 License:	GPL
 Group:		Libraries
 Source0:	http://www.berkeleydb.com/update/snapshot/db-%{version}.tar.gz
@@ -13,6 +14,7 @@ URL:		http://www.berkeleydb.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
 BuildRequires:	tcl-devel >= 8.3.2
+%{?_with_java:BuildRequires:	java}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -152,6 +154,18 @@ cd ../build_unix
 
 CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
+
+%if %{?_with_java:1}%{!?_with_java:0}
+../dist/configure \
+	--prefix=%{_prefix} \
+	--enable-compat185 \
+	--enable-shared \
+	--disable-static \
+	--enable-rpc \
+	--enable-cxx \
+	--enable-tcl \
+	--enable-java
+%else
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -160,6 +174,7 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 	--enable-rpc \
 	--enable-cxx \
 	--enable-tcl
+%endif
 
 %{__make} TCFLAGS='-I$(builddir) -I%{_includedir}'
 
@@ -177,6 +192,17 @@ install db_dump185 $RPM_BUILD_ROOT%{_bindir}
 
 cd ../build_unix
 
+%if %{?_with_java:1}%{!?_with_java:0}
+%{__make} \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	includedir=$RPM_BUILD_ROOT%{_includedir} \
+	install_include \
+	install_dynamic \
+	install_dynamic_cxx \
+	install_tcl \
+	install_utilities \
+	install_java
+%else
 %{__make} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
@@ -185,6 +211,7 @@ cd ../build_unix
 	install_dynamic_cxx \
 	install_tcl \
 	install_utilities
+%endif
 
 mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
 ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
@@ -208,8 +235,11 @@ for i in $RPM_BUILD_ROOT%{_bindir}/db_* ; do
 done
 
 cd ../
+
+%if %{?_with_java:0}%{!?_with_java:1}
 rm -rf examples_java
 cp -a java/src/com/sleepycat/examples examples_java
+%endif
 
 gzip -9nf LICENSE README
 
@@ -257,6 +287,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libndbm.so
 %attr(755,root,root) %{_libdir}/libdb_tcl.so
 %attr(755,root,root) %{_libdir}/libdb_cxx*.so
+%if %{?_with_java:1}%{!?_with_java:0}
+%attr(755,root,root) %{_libdir}/libdb_java*.so
+%endif
 %{_includedir}/*
 
 %files static
