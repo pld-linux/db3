@@ -1,0 +1,25 @@
+--- db-3.0.55/mutex/mut_pthread.c.linux	Mon Apr 24 09:25:36 2000
++++ db-3.0.55/mutex/mut_pthread.c	Mon Apr 24 09:36:31 2000
+@@ -86,16 +86,22 @@
+ 
+ 	if (!F_ISSET(mutexp, MUTEX_THREAD)) {
+ 		ret = pthread_condattr_init(&condattr);
++/* XXX linux threads implementation has not attributes for conditions. */
++#if !defined(__linux__)
+ 		if (ret == 0)
+ 			ret = pthread_condattr_setpshared(
+ 			    &condattr, PTHREAD_PROCESS_SHARED);
++#endif
+ 		condattrp = &condattr;
+ 
+ 		if (ret == 0)
+ 			ret = pthread_mutexattr_init(&mutexattr);
++/* XXX linux threads implementation has not attributes for mutexes. */
++#if !defined(__linux__)
+ 		if (ret == 0)
+ 			ret = pthread_mutexattr_setpshared(
+ 			    &mutexattr, PTHREAD_PROCESS_SHARED);
++#endif
+ 		mutexattrp = &mutexattr;
+ 	}
+ 
