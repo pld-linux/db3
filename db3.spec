@@ -5,13 +5,13 @@
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
 Name:		db3
-Version:	3.1.17
-Release:	13
+Version:	3.3.11
+Release:	0.1
 License:	BSD
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
 Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
-# Source0-md5:	5baeb94fb934d0bf783ea42117c400be
+# Source0-md5:	b6ae24fa55713f17a9ac3219d987722c
 Source1:	%{name}.jar
 # Source1-md5:	0d15818dea3099eed42b4be9950c69ad
 Patch0:		%{name}-static.patch
@@ -148,8 +148,8 @@ u¿ywaj±cych Berkeley DB.
 %prep
 %setup -q -n db-%{version}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
+#%patch1 -p1
+#%patch2 -p1
 
 %build
 cp -a build_unix build_unix.static
@@ -162,40 +162,43 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
 	--enable-dump185 \
-	--disable-shared \
-	--enable-static \
+	--enable-shared=no \
+	--enable-static=yes \
 	--enable-rpc \
 	--enable-cxx
 
 %{__make} static db_dump185
+#libdb_cxx.a
 
 cd ../build_unix
 
 CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
-
 %if %{?_with_java:1}%{!?_with_java:0}
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
-	--enable-shared \
-	--disable-static \
+	--enable-shared=yes \
+	--enable-static=no \
 	--enable-rpc \
 	--enable-cxx \
 	--enable-tcl \
+	--with-tcl=/usr/lib \
 	--enable-java
 %else
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
-	--enable-shared \
-	--disable-static \
+	--enable-shared=yes \
+	--enable-static=no \
 	--enable-rpc \
 	--enable-cxx \
-	--enable-tcl
+	--enable-tcl \
+	--with-tcl=/usr/lib
 %endif
 
-%{__make} TCFLAGS='-I$(builddir) -I%{_includedir}'
+%{__make} library_build \
+	TCFLAGS='-I$(builddir) -I%{_includedir}'
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -205,7 +208,7 @@ cd build_unix.static
 
 %{__make} prefix=$RPM_BUILD_ROOT%{_prefix} \
 	install_static \
-	install_static_cxx
+#	install_static_cxx
 
 install db_dump185 $RPM_BUILD_ROOT%{_bindir}
 
@@ -216,35 +219,38 @@ cd ../build_unix
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	install_include \
-	install_dynamic \
-	install_dynamic_cxx \
+	install_shared \
 	install_tcl \
 	install_utilities \
 	install_java
+#	install_dynamic_cxx \
 %else
 %{__make} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
 	install_include \
-	install_dynamic \
-	install_dynamic_cxx \
+	install_shared \
 	install_tcl \
 	install_utilities
+#	install_dynamic_cxx \
 %endif
 
 mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
-ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
-ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
-ln -sf ../../lib/libdb-3.1.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.so
-ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
-ln -sf libdb-3.1.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
+# dunno if it's needed, but I think can help...
+ln -sf libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.so
+ln -sf ../../lib/libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
+ln -sf ../../lib/libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
+ln -sf ../../lib/libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.3.so
+ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.a
+ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
+ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
 ln -sf libdb3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
 ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
 
 OLDPWD=$(pwd); cd $RPM_BUILD_ROOT%{_libdir}
 for i in libdb*.la; do mv $i $i.old; done
-sed -e "s/old_library=''/old_library='libdb-3.1.a'/" libdb-3.1.la.old > libdb-3.1.la
-sed -e "s/old_library=''/old_library='libdb_cxx.a'/" libdb_cxx-3.1.la.old > libdb_cxx-3.1.la
+sed -e "s/old_library=''/old_library='libdb-3.3.a'/" libdb-3.3.la.old > libdb-3.3.la
+#sed -e "s/old_library=''/old_library='libdb_cxx.a'/" libdb_cxx-3.3.la.old > libdb_cxx-3.3.la
 rm -f libdb*.la.old
 cd $OLDPWD
 
@@ -313,10 +319,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libdb*.la
 %attr(755,root,root) %{_libdir}/libdb.so
 %attr(755,root,root) %{_libdir}/libdb3.so
-%attr(755,root,root) %{_libdir}/libdb-3.1.so
+%attr(755,root,root) %{_libdir}/libdb-3.?.so
 %attr(755,root,root) %{_libdir}/libndbm.so
 %attr(755,root,root) %{_libdir}/libdb_tcl.so
-%attr(755,root,root) %{_libdir}/libdb_cxx*.so
+#%attr(755,root,root) %{_libdir}/libdb_cxx*.so
 %{_includedir}/*
 
 %files static
