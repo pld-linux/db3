@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _with_java	- build with java support
+%bcond_with java		# build with java support
 #
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
@@ -21,7 +21,7 @@ URL:		http://www.sleepycat.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
 BuildRequires:	tcl-devel >= 8.3.4-10
-%{?_with_java:BuildRequires:	java}
+%{?with_java:BuildRequires:	java}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -174,7 +174,7 @@ cd ../build_unix
 
 CFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
-%if %{?_with_java:1}%{!?_with_java:0}
+%if %{with java}
 ../dist/configure \
 	--prefix=%{_prefix} \
 	--enable-compat185 \
@@ -214,7 +214,7 @@ install db_dump185 $RPM_BUILD_ROOT%{_bindir}
 
 cd ../build_unix
 
-%if %{?_with_java:1}%{!?_with_java:0}
+%if %{with java}
 %{__make} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	includedir=$RPM_BUILD_ROOT%{_includedir} \
@@ -263,7 +263,7 @@ cd ..
 # to remove stupid link:
 rm -rf examples_java
 
-%if %{?_with_java:1}%{!?_with_java:0}
+%if %{with java}
 cp -ra java/src/com/sleepycat/examples examples_java
 install %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/db.jar
 %endif
@@ -305,7 +305,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdb_tcl-*.so
 
-%if %{?_with_java:1}%{!?_with_java:0}
+%if %{with java}
 %files java
 %defattr(644,root,root,755)
 %doc docs/api_java examples_java
