@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with java		# build with java support
+%bcond_with	java		# build with java support
 #
 Summary:	BSD database library for C
 Summary(pl):	Biblioteka C do obs³ugi baz Berkeley DB
