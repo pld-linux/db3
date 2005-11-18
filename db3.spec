@@ -203,7 +203,7 @@ CXXFLAGS="%{rpmcflags} -fno-rtti -fno-implicit-templates" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir},/lib}
+install -d $RPM_BUILD_ROOT{%{_includedir},%{_libdir},%{_bindir}}
 
 cd build_unix.static
 
@@ -236,17 +236,13 @@ cd ../build_unix
 #	install_dynamic_cxx \
 %endif
 
-mv -f $RPM_BUILD_ROOT%{_libdir}/libdb-*.so $RPM_BUILD_ROOT/lib
 # dunno if it's needed, but I think can help...
-ln -sf libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.so
-ln -sf ../../lib/libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
-ln -sf ../../lib/libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
-ln -sf ../../lib/libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb-3.3.so
-ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libdb-3.1.a
+ln -sf libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb.so
+ln -sf libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libdb3.so
 ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libdb3.a
 ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libdb.a
-ln -sf libdb3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
-ln -sf libdb3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
+ln -sf libdb-3.3.so $RPM_BUILD_ROOT%{_libdir}/libndbm.so
+ln -sf libdb-3.3.a $RPM_BUILD_ROOT%{_libdir}/libndbm.a
 
 OLDPWD=$(pwd); cd $RPM_BUILD_ROOT%{_libdir}
 for i in libdb*.la; do mv $i $i.old; done
@@ -284,7 +280,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE README
-%attr(755,root,root) /lib/libdb-*.so
+%attr(755,root,root) %{_libdir}/libdb-*.so
 
 %files utils
 %defattr(644,root,root,755)
@@ -317,12 +313,11 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %doc docs/{api_cxx,api_c,ref,index.html,sleepycat,images} examples_{c,cxx}
-%{_libdir}/libdb*.la
 %attr(755,root,root) %{_libdir}/libdb.so
 %attr(755,root,root) %{_libdir}/libdb3.so
-%attr(755,root,root) %{_libdir}/libdb-3.?.so
 %attr(755,root,root) %{_libdir}/libndbm.so
 %attr(755,root,root) %{_libdir}/libdb_tcl.so
+%{_libdir}/libdb*.la
 #%attr(755,root,root) %{_libdir}/libdb_cxx*.so
 %{_includedir}/*
 
