@@ -10,7 +10,8 @@ Release:	0.1
 License:	BSD
 Group:		Libraries
 # alternative site (sometimes working): http://www.berkeleydb.com/
-Source0:	http://www.sleepycat.com/update/snapshot/db-%{version}.tar.gz
+#Source0Download: http://dev.sleepycat.com/downloads/releasehistorybdb.html
+Source0:	http://downloads.sleepycat.com/db-%{version}.tar.gz
 # Source0-md5:	b6ae24fa55713f17a9ac3219d987722c
 Source1:	%{name}.jar
 # Source1-md5:	0d15818dea3099eed42b4be9950c69ad
@@ -40,7 +41,7 @@ Pythonie i Perlu.
 Summary:	Command line tools for managing Berkeley DB databases
 Summary(pl):	Narzêdzia do obs³ugi baz Berkeley DB z linii poleceñ
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description utils
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -68,7 +69,7 @@ poleceñ.
 Summary:	Berkeley database library for Tcl
 Summary(pl):	Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	tcl
 
 %description tcl
@@ -81,7 +82,7 @@ Biblioteka baz danych Berkeley dla Tcl.
 Summary:	Java Berkeley database library
 Summary(pl):	Biblioteki Berkeley Database dla Javy
 Group:		Development/Languages/Java
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description java
 Java Berkeley database library.
@@ -93,7 +94,7 @@ Biblioteki Berkeley Database dla Javy.
 Summary:	Header files for Berkeley database library
 Summary(pl):	Pliki nag³ówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
@@ -121,7 +122,7 @@ programów u¿ywaj±cych Berkeley DB.
 Summary:	Static libraries for Berkeley database library
 Summary(pl):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 The Berkeley Database (Berkeley DB) is a programmatic toolkit that
