@@ -21,8 +21,8 @@ Patch2:		%{name}-jbj.patch
 URL:		http://www.sleepycat.com/
 BuildRequires:	db1-static
 BuildRequires:	glibc-static
-BuildRequires:	tcl-devel >= 8.3.4-10
 %{?with_java:BuildRequires:	java}
+BuildRequires:	tcl-devel >= 8.3.4-10
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
