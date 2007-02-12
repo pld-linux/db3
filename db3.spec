@@ -3,7 +3,7 @@
 %bcond_with	java		# build with java support
 #
 Summary:	BSD database library for C
-Summary(pl.UTF-8):   Biblioteka C do obsługi baz Berkeley DB
+Summary(pl.UTF-8):	Biblioteka C do obsługi baz Berkeley DB
 Name:		db3
 Version:	3.3.11
 Release:	0.1
@@ -39,7 +39,7 @@ Pythonie i Perlu.
 
 %package utils
 Summary:	Command line tools for managing Berkeley DB databases
-Summary(pl.UTF-8):   Narzędzia do obsługi baz Berkeley DB z linii poleceń
+Summary(pl.UTF-8):	Narzędzia do obsługi baz Berkeley DB z linii poleceń
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -67,7 +67,7 @@ poleceń.
 
 %package tcl
 Summary:	Berkeley database library for Tcl
-Summary(pl.UTF-8):   Biblioteka baz danych Berkeley dla Tcl
+Summary(pl.UTF-8):	Biblioteka baz danych Berkeley dla Tcl
 Group:		Development/Languages/Tcl
 Requires:	%{name} = %{version}-%{release}
 Requires:	tcl
@@ -80,7 +80,7 @@ Biblioteka baz danych Berkeley dla Tcl.
 
 %package java
 Summary:	Java Berkeley database library
-Summary(pl.UTF-8):   Biblioteki Berkeley Database dla Javy
+Summary(pl.UTF-8):	Biblioteki Berkeley Database dla Javy
 Group:		Development/Languages/Java
 Requires:	%{name} = %{version}-%{release}
 
@@ -92,7 +92,7 @@ Biblioteki Berkeley Database dla Javy.
 
 %package devel
 Summary:	Header files for Berkeley database library
-Summary(pl.UTF-8):   Pliki nagłówkowe do biblioteki Berkeley Database
+Summary(pl.UTF-8):	Pliki nagłówkowe do biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -120,7 +120,7 @@ programów używających Berkeley DB.
 
 %package static
 Summary:	Static libraries for Berkeley database library
-Summary(pl.UTF-8):   Statyczne biblioteki Berkeley Database
+Summary(pl.UTF-8):	Statyczne biblioteki Berkeley Database
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
