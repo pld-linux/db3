@@ -81,7 +81,7 @@ Biblioteka baz danych Berkeley dla Tcl.
 %package java
 Summary:	Java Berkeley database library
 Summary(pl.UTF-8):	Biblioteki Berkeley Database dla Javy
-Group:		Development/Languages/Java
+Group:		Libraries/Java
 Requires:	%{name} = %{version}-%{release}
 
 %description java
