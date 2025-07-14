@@ -148,7 +148,7 @@ używających Berkeley DB.
 
 %prep
 %setup -q -n db-%{version}
-%patch0 -p1
+%patch -P0 -p1
 #%patch1 -p1
 #%patch2 -p1
 
