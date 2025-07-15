@@ -149,8 +149,8 @@ używających Berkeley DB.
 %prep
 %setup -q -n db-%{version}
 %patch -P0 -p1
-#%patch1 -p1
-#%patch2 -p1
+#%%patch1 -p1
+#%%patch2 -p1
 
 %build
 cp -a build_unix build_unix.static
